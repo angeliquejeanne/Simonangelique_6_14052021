@@ -41,28 +41,17 @@ app.post('/api/sauces', (req, res, next) => {
     .catch(error => res.status(400).json({ error }));
   });
 
+app.get('/api/sauces/:id', (req, res, next) => {
+  Sauces.findOne({ _id: req.params.id })
+    .then(sauces => res.status(200).json(sauces))
+    .catch(error => res.status(404).json({ error }));
+});
 //routes
-app.use('/api/sauces', (req, res, next) => {
-    const sauces = [
-      {
-        _id: 'sauce-sauce',
-        title: 'Sauces Piquante 1',
-        description: 'Description rapide de cette première sauces',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 500,
-        userId: 'Pekocko_first',
-      },
-      {
-        _id: 'sauces-sauce',
-        title: 'Sauces Piquante 1',
-        description: 'Description rapide de cette première sauces',
-        imageUrl: 'https://cdn.pixabay.com/photo/2019/06/11/18/56/camera-4267692_1280.jpg',
-        price: 500,
-        userId: 'MrSnowman',
-      },
-    ];
-    res.status(200).json(sauces);
-  });
+app.get('/api/sauces', (req, res, next) => {
+    Sauces.find()
+    .then(sauces => res.status(200).json(sauces)) // Promise
+    .catch(error => res.status(400).json({ error }));
+});
 
 
 module.exports = app;
