@@ -5,11 +5,13 @@ const bodyParser = require('body-parser');
 //ajout de mongoose au projet : gestion de la DB
 const mongoose = require('mongoose');
 
+const Sauces = require('./models/sauces');
+
 const app = express();
 
 
 //connexion à la DB
-mongoose.connect('mongodb+srv://John-Smith:CL4PTP@cluster0-pme76.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://John-Smith:CL4PTP@cluster0.us1b4.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -30,10 +32,13 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 app.post('/api/sauces', (req, res, next) => {
-    console.log(req.body);
-    res.status(201).json({
-      message: 'Objet créé !'
+    delete req.body._id;
+    const sauces = new Sauces({
+        ...req.body
     });
+    sauces.save()
+    .then(() => res.status(201).json({ message: 'Sauces enregistrée !'}))
+    .catch(error => res.status(400).json({ error }));
   });
 
 //routes
