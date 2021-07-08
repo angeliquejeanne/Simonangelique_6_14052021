@@ -50,5 +50,5 @@ server.on('listening', () => {
   console.log('Listening on ' + bind);
 });
 
-//mise en marche du serveur
+//mise en route du serveur
 server.listen(port);
