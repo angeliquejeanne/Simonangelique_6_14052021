@@ -8,10 +8,11 @@ const mongoose = require('mongoose');
 const app = express();
 
 //importation des fichiers routes
-const sauceRoutes = require('./routes/sauces');
+const sauceRoutes = require('./routes/sauce');
+const userRoutes = require('./routes/user');
 
 //connexion à la DB
-mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -30,6 +31,7 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 //routes
-app.use('/api/sauces', sauceRoutes)
+app.use('/api/auth', userRoutes);
+app.use('/api/sauces', sauceRoutes);
 
 module.exports = app;
