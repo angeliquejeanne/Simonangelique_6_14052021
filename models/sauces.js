@@ -1,4 +1,4 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
 //création du schéma strict Sauce
 const sauceSchema = mongoose.Schema({
@@ -15,4 +15,4 @@ const sauceSchema = mongoose.Schema({
   usersDisliked: { type: [String], required: false },
 });
 
-module.exports = mongoose.model("Sauce", sauceSchema);
+module.exports = mongoose.model('Sauces', sauceSchema);

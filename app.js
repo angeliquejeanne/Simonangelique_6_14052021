@@ -5,19 +5,18 @@ const bodyParser = require('body-parser');
 //ajout de mongoose au projet : gestion de la DB
 const mongoose = require('mongoose');
 
-const Sauces = require('./models/sauces');
-
 const app = express();
 
+//importation des fichiers routes
+const sauceRoutes = require('./routes/sauces');
 
 //connexion à la DB
-mongoose.connect('mongodb+srv://John-Smith:CL4PTP@cluster0.us1b4.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
 
-  
 // ajout d'un middleware, qui sera le premier à être executer par le server, il sera appliquer à toutes les routes, toutes les requêtes envoyer à notre server.
 // correction des erreurs de CORS
 app.use((req, res, next) => {
@@ -26,32 +25,11 @@ app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, PATCH, OPTIONS'); // ceci va permettre à l'application d'accéder à l'api sans problème
     next(); // Ne pas oublie d'appeler next pour passer au middleware d'après
   });
-  
 
 //middleware global : JSON
 app.use(bodyParser.json());
 
-app.post('/api/sauces', (req, res, next) => {
-    delete req.body._id;
-    const sauces = new Sauces({
-        ...req.body
-    });
-    sauces.save()
-    .then(() => res.status(201).json({ message: 'Sauces enregistrée !'}))
-    .catch(error => res.status(400).json({ error }));
-  });
-
-app.get('/api/sauces/:id', (req, res, next) => {
-  Sauces.findOne({ _id: req.params.id })
-    .then(sauces => res.status(200).json(sauces))
-    .catch(error => res.status(404).json({ error }));
-});
 //routes
-app.get('/api/sauces', (req, res, next) => {
-    Sauces.find()
-    .then(sauces => res.status(200).json(sauces)) // Promise
-    .catch(error => res.status(400).json({ error }));
-});
-
+app.use('/api/sauces', sauceRoutes)
 
 module.exports = app;
