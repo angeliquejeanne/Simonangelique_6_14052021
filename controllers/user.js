@@ -7,7 +7,7 @@ const jwt = require("jsonwebtoken");
 const User = require("../models/user");
 
 //parti inscription user
-exports.signup = (req, res, next) => {
+exports.signUp = (req, res, next) => {
   // il s'agit d'une fonction asynchrone qui va prendre du temps
   //cryptage du mot de passe
   bcrypt.hash(req.body.password, 10)

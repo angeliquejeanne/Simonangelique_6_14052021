@@ -4,7 +4,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 //ajout de mongoose au projet : gestion de la DB
 const mongoose = require('mongoose');
-
+// Plugin qui sert dans l'upload des images et permet de travailler avec les répertoires et chemin de fichier.
 const path = require('path');
 
 //importation des fichiers routes
@@ -13,7 +13,7 @@ const userRoutes = require('./routes/user');
 
 
 //connexion à la DB
-mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/test?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://FirstUser:FirstUs3r@cluster0.m0bet.mongodb.net/myFirstDataBase?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
@@ -37,6 +37,6 @@ app.use(bodyParser.json());
 //express doit gérer la ressource image de manière statique
 app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
-app.use('/api/sauces', sauceRoutes);
+app.use('/api/sauce', sauceRoutes);
 
 module.exports = app;
