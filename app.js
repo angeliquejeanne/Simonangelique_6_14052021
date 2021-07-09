@@ -5,18 +5,21 @@ const bodyParser = require('body-parser');
 //ajout de mongoose au projet : gestion de la DB
 const mongoose = require('mongoose');
 
-const app = express();
+const path = require('path');
 
 //importation des fichiers routes
 const sauceRoutes = require('./routes/sauce');
 const userRoutes = require('./routes/user');
 
+
 //connexion à la DB
-mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/myFirstDatabase?retryWrites=true&w=majority',
+mongoose.connect('mongodb+srv://jane-doe:a123456@cluster0.m0bet.mongodb.net/test?retryWrites=true&w=majority',
   { useNewUrlParser: true,
     useUnifiedTopology: true })
   .then(() => console.log('Connexion à MongoDB réussie !'))
   .catch(() => console.log('Connexion à MongoDB échouée !'));
+
+const app = express();
 
 // ajout d'un middleware, qui sera le premier à être executer par le server, il sera appliquer à toutes les routes, toutes les requêtes envoyer à notre server.
 // correction des erreurs de CORS
@@ -31,6 +34,8 @@ app.use((req, res, next) => {
 app.use(bodyParser.json());
 
 //routes
+//express doit gérer la ressource image de manière statique
+app.use('/images', express.static(path.join(__dirname, 'images')));
 app.use('/api/auth', userRoutes);
 app.use('/api/sauces', sauceRoutes);
 
